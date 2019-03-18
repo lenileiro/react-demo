@@ -19,10 +19,18 @@ res.send(`
         <head>
             <title>SSR App</title>
             <script src="/bundle.js" defer></script>
-            <script src="/register.js" defer></script>
         </head>
         <body>
             <div id="app">${markup}</div>
+            <script defer>
+                if('serviceWorker' in navigator){
+                    try { 
+                        navigator.serviceWorker.register('sw.js')
+                    } catch (error){
+                        console.log(error)
+                    }
+                }
+            </script>
         </body>
     </html>
 `)
