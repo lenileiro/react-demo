@@ -19,6 +19,7 @@ res.send(`
         <head>
             <title>SSR App</title>
             <script src="/bundle.js" defer></script>
+            <script src="/register.js" defer></script>
         </head>
         <body>
             <div id="app">${markup}</div>
