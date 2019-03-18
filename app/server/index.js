@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import App from '../shared/App'
+import App from '../../src/App'
 const app = express()
 
 app.use(cors())
