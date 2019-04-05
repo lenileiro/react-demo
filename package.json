@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "webpack -w & nodemon server.js",
+    "dev:serve": "webpack-dev-server --env.CLIENT=development --mode development --open",
+    "dev:build": "webpack --env.CLIENT=development",
+    "prod:build": "webpack --env.CLIENT=build --mode production",
+    "prod:serve": "npm run prod:build -w & nodemon server.js --env.CLIENT=production --mode production",
     "test": "jest"
   },
   "author": "",
@@ -24,20 +27,22 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "chai": "^4.2.0",
-    "mocha": "^6.0.2",
+    "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.12.5",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "extended-define-webpack-plugin": "^0.1.3",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^24.5.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-helmet": "^5.2.0",
     "react-router-dom": "^4.2.2",
     "serialize-javascript": "^1.4.0",
     "supertest": "^4.0.2"

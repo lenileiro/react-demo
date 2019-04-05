@@ -37,5 +37,5 @@ res.send(`
 })
 
 app.listen(process.env.PORT || 3001, () => {
-    console.log("Server is listening");
+    console.log("Server is listening on port 3001");
   });
