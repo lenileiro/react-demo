@@ -8,8 +8,7 @@ const htmlplugin = new HtmlWebPackPlugin({
   filename: "./index.html"
 })
 
-var browserConfig = (env) => {
-  return {
+var browserConfig = {
     entry: './app/index.js',
     mode: 'development',
     output: {
@@ -32,16 +31,10 @@ var browserConfig = (env) => {
 
     plugins: [
       htmlplugin,
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-        'process.env.CLIENT': JSON.stringify(env.CLIENT)
-      })
     ]
-  }
 }
 
-var hydrateConfig = (env) => {
-  return {
+var hydrateConfig = {
     entry: './app/hydrate.js',
     output: {
       path: path.resolve(__dirname, 'public'),
@@ -63,17 +56,11 @@ var hydrateConfig = (env) => {
     plugins: [
       new webpack.DefinePlugin({
         __isBrowser__: "true"
-      }),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-        'process.env.CLIENT': JSON.stringify(env.CLIENT)
       })
     ]
-  }
 }
 
-var serverConfig = env => {
-  return{
+var serverConfig = {
     entry: './app/ssr.js',
     target: 'node',
     externals: [nodeExternals()],
@@ -99,24 +86,20 @@ var serverConfig = env => {
         __isBrowser__: "false"
       })
     ]
-  }
 }
 
 
 let webpackConfig = (env) => {
   // check environment --env.CLIENT=development
-  var client = env.CLIENT;
 
-  console.log(env)
-
-  if(client == 'development') {
-    return browserConfig(env)
+  if(env.CLIENT == 'development') {
+    return browserConfig
   }
-  else if(client == 'build') {
-    return browserConfig(env)
+  else if(env.CLIENT == 'build') {
+    return browserConfig
   }
-  else if(client == 'production'){
-    return [hydrateConfig(env), serverConfig(env)]
+  else if(env.CLIENT == 'production'){
+    return [hydrateConfig, serverConfig]
   }
 }
 module.exports = webpackConfig

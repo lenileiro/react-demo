@@ -2,11 +2,14 @@ import express from 'express'
 import cors from 'cors'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
+import compression from "compression"
+
 import App from '../src/App'
+
 const app = express()
 
+app.use(compression())
 app.use(cors())
-
 app.use(express.static('public'))
 
 app.get('*', (req, res, next) => {
@@ -15,7 +18,7 @@ app.get('*', (req, res, next) => {
     )
 res.send(`
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
         <head>
             <title>SSR App</title>
             <script src="/bundle.js" defer></script>
