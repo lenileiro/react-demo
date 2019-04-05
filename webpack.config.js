@@ -8,7 +8,39 @@ const htmlplugin = new HtmlWebPackPlugin({
   filename: "./index.html"
 })
 
-var browserConfig = {
+var browserConfig = (env) => {
+  return {
+    entry: './app/index.js',
+    mode: 'development',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'bundle.js',
+      publicPath: '/'
+    },
+
+    module: {
+      rules: [
+        { test: /\.(js)$/, 
+          use: 'babel-loader' 
+        },
+        {
+          test: /\.(css)$/,
+          use: ["style-loader", "css-loader"]
+        }
+      ]
+    },
+
+    plugins: [
+      htmlplugin,
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
+        'process.env.CLIENT': JSON.stringify(env.CLIENT)
+      })
+    ]
+  }
+}
+
+var hydrateConfig = {
   entry: './app/hydrate.js',
   output: {
     path: path.resolve(__dirname, 'public'),
@@ -19,7 +51,12 @@ var browserConfig = {
     rules: [
       { test: /\.(js)$/,
         exclude: /node_modules/,
-        use: 'babel-loader' },
+        use: 'babel-loader' 
+      },
+      {
+        test: /\.(css)$/,
+        use: ["style-loader", "css-loader"]
+      }
     ]
   },
   plugins: [
@@ -43,6 +80,10 @@ var serverConfig = {
       { test: /\.(js)$/, 
         exclude: /node_modules/,
         use: 'babel-loader' 
+      },
+      {
+        test: /\.(css)$/,
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
@@ -53,44 +94,19 @@ var serverConfig = {
   ]
 }
 
-var developClient = (env) => {
-  return {
-    entry: './app/index.js',
-    mode: 'development',
-    output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'bundle.js',
-      publicPath: '/'
-    },
-
-    module: {
-      rules: [
-        { test: /\.(js)$/, use: 'babel-loader' },
-      ]
-    },
-
-    plugins: [
-      htmlplugin,
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
-        'process.env.CLIENT': JSON.stringify(env.CLIENT)
-      })
-    ]
-  }
-}
 
 let webpackConfig = (env) => {
   // check environment --env.CLIENT=development
   var client = process.env.CLIENT || "development";
 
   if(client == 'development') {
-    return developClient(env)
+    return browserConfig(env)
   }
   else if(client == 'build') {
-    return browserConfig
+    return hydrateConfig
   }
   else if(client == 'production'){
-    return [browserConfig, serverConfig]
+    return [hydrateConfig, serverConfig]
   }
 }
 module.exports = webpackConfig
