@@ -9,4 +9,5 @@ export default styled.div `
     padding-right: 10px;
     padding-left: 10px;
     background-color: green;
+    color:white;
 `
