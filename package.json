@@ -5,8 +5,7 @@
   "scripts": {
     "dev:serve": "webpack-dev-server --env.CLIENT=development --mode development --open",
     "dev:build": "webpack --env.CLIENT=development",
-    "prod:build": "webpack --env.CLIENT=build --mode production",
-    "prod:serve": "npm run prod:build -w & nodemon server.js --env.CLIENT=production --mode production",
+    "prod:serve": "webpack --mode production --env.CLIENT=production && PORT=8080 nodemon server.js",
     "test": "jest"
   },
   "author": "",

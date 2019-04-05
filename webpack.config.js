@@ -40,73 +40,83 @@ var browserConfig = (env) => {
   }
 }
 
-var hydrateConfig = {
-  entry: './app/hydrate.js',
-  output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/'
-  },
-  module: {
-    rules: [
-      { test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: 'babel-loader' 
-      },
-      {
-        test: /\.(css)$/,
-        use: ["style-loader", "css-loader"]
-      }
+var hydrateConfig = (env) => {
+  return {
+    entry: './app/hydrate.js',
+    output: {
+      path: path.resolve(__dirname, 'public'),
+      filename: 'bundle.js',
+      publicPath: '/'
+    },
+    module: {
+      rules: [
+        { test: /\.(js)$/,
+          exclude: /node_modules/,
+          use: 'babel-loader' 
+        },
+        {
+          test: /\.(css)$/,
+          use: ["style-loader", "css-loader"]
+        }
+      ]
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        __isBrowser__: "true"
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
+        'process.env.CLIENT': JSON.stringify(env.CLIENT)
+      })
     ]
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      __isBrowser__: "true"
-    })
-  ]
+  }
 }
 
-var serverConfig = {
-  entry: './app/ssr.js',
-  target: 'node',
-  externals: [nodeExternals()],
-  output: {
-    path: __dirname,
-    filename: 'server.js',
-    publicPath: '/'
-  },
-  module: {
-    rules: [
-      { test: /\.(js)$/, 
-        exclude: /node_modules/,
-        use: 'babel-loader' 
-      },
-      {
-        test: /\.(css)$/,
-        use: ["style-loader", "css-loader"]
-      }
+var serverConfig = env => {
+  return{
+    entry: './app/ssr.js',
+    target: 'node',
+    externals: [nodeExternals()],
+    output: {
+      path: __dirname,
+      filename: 'server.js',
+      publicPath: '/'
+    },
+    module: {
+      rules: [
+        { test: /\.(js)$/, 
+          exclude: /node_modules/,
+          use: 'babel-loader' 
+        },
+        {
+          test: /\.(css)$/,
+          use: ["style-loader", "css-loader"]
+        }
+      ]
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        __isBrowser__: "false"
+      })
     ]
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      __isBrowser__: "false"
-    })
-  ]
+  }
 }
 
 
 let webpackConfig = (env) => {
   // check environment --env.CLIENT=development
-  var client = process.env.CLIENT || "development";
+  var client = env.CLIENT;
+
+  console.log(env)
 
   if(client == 'development') {
     return browserConfig(env)
   }
   else if(client == 'build') {
-    return hydrateConfig
+    return browserConfig(env)
   }
   else if(client == 'production'){
-    return [hydrateConfig, serverConfig]
+    return [hydrateConfig(env), serverConfig(env)]
   }
 }
 module.exports = webpackConfig

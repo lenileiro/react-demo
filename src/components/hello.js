@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Helmet} from "react-helmet";
- 
-import style from "./hello.css"
+import Wrapper from "./Wrapper"
+
 
 class Hello extends Component {
     render() {
@@ -12,7 +12,9 @@ class Hello extends Component {
                     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
                     <meta charSet="utf-8" />
                 </Helmet>
-                <h1 className="hello">hello page</h1> 
+                <Wrapper>
+                 <h1 className="hello">hello page</h1> 
+                </Wrapper>
             </div>
         )
     }

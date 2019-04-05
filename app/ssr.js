@@ -25,7 +25,7 @@ res.send(`
             <script defer>
                 if('serviceWorker' in navigator){
                     try { 
-                        navigator.serviceWorker.register('sw.js')
+                        navigator.serviceWorker.register('sws.js')
                     } catch (error){
                         console.log(error)
                     }
@@ -36,6 +36,7 @@ res.send(`
 `)
 })
 
-app.listen(process.env.PORT || 3001, () => {
-    console.log("Server is listening on port 3001");
+const PORT = process.env.PORT || 3000
+app.listen( PORT, () => {
+    console.log("Server is listening on port ::" +PORT);
   });
