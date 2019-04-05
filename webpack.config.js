@@ -4,12 +4,12 @@ var nodeExternals = require('webpack-node-externals')
 var HtmlWebPackPlugin = require('html-webpack-plugin')
 
 const htmlplugin = new HtmlWebPackPlugin({
-  template: "./client/index.html",
+  template: "./index.html",
   filename: "./index.html"
 })
 
 var browserConfig = {
-  entry: './app/index.js',
+  entry: './app/hydrate.js',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
@@ -30,7 +30,7 @@ var browserConfig = {
 }
 
 var serverConfig = {
-  entry: './app/node.js',
+  entry: './app/ssr.js',
   target: 'node',
   externals: [nodeExternals()],
   output: {
@@ -55,7 +55,7 @@ var serverConfig = {
 
 var developClient = (env) => {
   return {
-    entry: './client/index.js',
+    entry: './app/index.js',
     mode: 'development',
     output: {
       path: path.resolve(__dirname, 'dist'),
