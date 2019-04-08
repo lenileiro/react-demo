@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "dev:serve": "webpack-dev-server --env.CLIENT=development --mode development --open",
+    "dev:serve": "webpack-dev-server -w --env.CLIENT=development --mode development --open",
     "dev:build": "webpack --env.CLIENT=development",
-    "prod:serve": "webpack --mode production --env.CLIENT=production && PORT=3000 nodemon server.js",
+    "prod:serve": "webpack --mode production --env.CLIENT=production -w & nodemon server.js",
     "test": "jest"
   },
   "author": "",
@@ -38,6 +38,13 @@
     "react-router-dom": "^4.2.2",
     "serialize-javascript": "^1.4.0",
     "styled-components": "^4.2.0",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "@grpc/proto-loader": "^0.1.0",
+    "async": "^1.5.2",
+    "google-protobuf": "^3.0.0",
+    "grpc-promise": "^1.4.0",
+    "grpc": "^1.11.0",
+    "lodash": "^4.6.1",
+    "minimist": "^1.2.0"
   }
 }

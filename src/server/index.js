@@ -4,7 +4,7 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import compression from "compression"
 
-import App from '../src/App'
+import App from "../shared/App"
 
 const app = express()
 

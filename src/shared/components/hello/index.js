@@ -13,8 +13,9 @@ class Hello extends Component {
                     <meta charSet="utf-8" />
                 </Helmet>
                 <Wrapper>
-                 <h1 className="hello">hello page</h1> 
+                 <h1 className="hello">Hello page</h1>
                 </Wrapper>
+                <p>lorem text</p>
             </div>
         )
     }

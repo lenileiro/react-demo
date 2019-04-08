@@ -1,6 +1,7 @@
 import React from 'react'
 import  { hydrate } from 'react-dom'
-import App from '../src/App'
+
+import App from "../shared/App"
 
 hydrate(
     <App />,
